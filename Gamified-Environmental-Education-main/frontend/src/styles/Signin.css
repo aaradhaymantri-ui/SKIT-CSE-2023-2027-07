@@ -1,0 +1,74 @@
+.signin-container {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.signin-form {
+  width: 360px;
+  background: var(--panel);
+  color: var(--text);
+  padding: 28px 26px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  backdrop-filter: saturate(120%) blur(10px);
+}
+
+.signin-form h2 {
+  text-align: center;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.signin-form label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.signin-form input {
+  width: 100%;
+  padding: 12px 12px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+}
+.signin-form input:focus { border-color: rgba(124,58,237,0.6); box-shadow: 0 0 0 3px rgba(124,58,237,0.2); }
+
+.signin-form button {
+  width: 100%;
+  height: 44px;
+  background: linear-gradient(135deg, var(--secondary), var(--accent));
+  color: #0b0118;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: var(--glow);
+}
+
+.signin-form button:hover { transform: translateY(-2px); filter: brightness(1.05); }
+
+.link-text {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.link-text a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.link-text a:hover {
+  text-decoration: underline;
+}

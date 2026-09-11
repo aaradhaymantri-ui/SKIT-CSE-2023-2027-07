@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Your existing custom styles */
+:root {
+  --bg: #f7fff8;
+  --panel: #ffffff;
+  --text: #1b2b1b;
+  --muted: #4d6b57;
+  --primary: #16a34a;
+  --secondary: #06b6d4;
+  --accent: #f59e0b;
+  --glow: 0 0 32px rgba(22,163,74,0.25), 0 0 64px rgba(6,182,212,0.15);
+}
+
+body[data-theme="dark"] {
+  --bg: #0a0016;
+  --panel: #0f011f;
+  --text: #e7d7ff;
+  --muted: #b49ae6;
+  --primary: #5b21b6;
+  --secondary: #14b8a6;
+  --accent: #db2777;
+  --glow: 0 0 40px rgba(91,33,182,0.45), 0 0 80px rgba(20,184,166,0.18);
+}
+
+html, body, #root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 20% 10%, rgba(16,185,129,0.18), transparent 60%),
+              radial-gradient(1000px 700px at 80% 30%, rgba(6,182,212,0.16), transparent 60%),
+              radial-gradient(900px 600px at 50% 90%, rgba(245,158,11,0.14), transparent 60%),
+              var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
+
+/* Landing */
+.landing { position: relative; min-height: 100vh; display: grid; place-items: center; overflow: hidden; }
+/* .landing .eco-bg-canvas { filter: saturate(50%) hue-rotate(-20deg); opacity: 0.8; } */
+.landing-inner { position: relative; z-index: 2; max-width: 960px; padding: 64px 24px; text-align: center; }
+.landing-badge { display: inline-block; padding: 8px 14px; border-radius: 999px; background: rgba(16,185,129,0.18); color: var(--muted); border: 1px solid rgba(22,163,74,0.35); margin-bottom: 18px; }
+.landing-title { font-size: clamp(36px, 6vw, 80px); line-height: 1.05; margin: 0 0 16px; letter-spacing: -0.02em; }
+.landing-gradient { background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: var(--glow); }
+.landing-subtitle { max-width: 760px; margin: 0 auto; color: var(--muted); font-size: clamp(16px, 2.4vw, 18px); }
+.landing-cta { margin-top: 28px; display: flex; gap: 14px; justify-content: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 18px; border-radius: 12px; font-weight: 700; letter-spacing: .2px; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.btn-primary { color: #ffffff; background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: var(--glow); }
+.btn-ghost { color: var(--text); background: rgba(255,255,255,0.95); border: 1px solid rgba(0,0,0,0.06); }
+.btn:hover { transform: translateY(-2px); }
+.landing-foot { margin-top: 32px; color: var(--muted); display: flex; gap: 8px; justify-content: center; align-items: center; }
+.dots { opacity: 0.6; }
+
+/* Features on landing */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; padding: 0 24px 64px; max-width: 1100px; margin: 0 auto; position: relative; z-index: 2; }
+.feature { background: rgba(255,255,255,0.95); border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; padding: 18px; text-align: center; color: var(--text); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.feature:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(22,163,74,0.15); border-color: rgba(22,163,74,0.35); }
+.feature-icon { font-size: 26px; margin-bottom: 8px; filter: drop-shadow(0 0 18px rgba(22,163,74,0.35)); }
+
+/* Navigation Styles */
+.nav-link {
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  color: var(--muted);
+}
+.nav-link:hover {
+  background: rgba(22,163,74,0.08);
+  color: var(--primary);
+}
+.nav-link.active {
+  background: var(--primary);
+  color: #fff;
+}
+.nav-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(0,0,0,0.1);
+  color: var(--text);
+}
+.nav-btn:hover {
+  background: rgba(22,163,74,0.1);
+  border-color: var(--primary);
+}
+.nav-btn.primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  border: none;
+}
+.nav-btn.primary:hover {
+  filter: brightness(1.05);
+}

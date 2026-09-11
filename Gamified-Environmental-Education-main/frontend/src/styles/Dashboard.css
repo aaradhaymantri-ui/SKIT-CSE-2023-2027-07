@@ -1,0 +1,350 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  min-height: 100vh;
+  position: relative; /* for z-index layering */
+}
+
+/* Background canvas stays fixed */
+.eco-bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Header styling replaced with a simple fixed top container for back button */
+.dashboard-header {
+  display: flex;
+  justify-content: flex-end; /* Back button aligned right */
+  padding: 16px 32px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  z-index: 10;
+}
+
+/* Back button style */
+.back-button {
+  background: var(--primary, #2e7d32);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(46, 125, 50, 0.4);
+  transition: background 0.3s ease;
+}
+.back-button:hover {
+  filter: brightness(1.1);
+}
+
+/* Reapply original header styles (for consistency if needed elsewhere) */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: var(--panel);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(22, 163, 74, 0.04);
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: var(--primary);
+  font-size: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-icon {
+  margin-right: 8px;
+  transition: transform 300ms ease, filter 300ms ease;
+}
+
+.actions button {
+  margin-left: 12px;
+  padding: 8px 16px;
+  border: 1px solid #2e7d32;
+  border-radius: 20px;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 200ms ease, background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+
+.actions .signup {
+  background: var(--primary);
+  color: #fff;
+}
+
+.actions button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(46, 125, 50, 0.15);
+}
+
+.actions .login:hover {
+  background: #e8f5e9;
+}
+
+.actions .signup:hover {
+  filter: brightness(1.05);
+}
+
+.header-waves {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -32px;
+  width: 100%;
+  height: 64px;
+  z-index: 1;
+}
+
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(35, 164, 85, 0.08), rgba(33, 150, 243, 0.06));
+  z-index: 1;
+  pointer-events: none;
+}
+
+.header:hover .logo-icon {
+  transform: scale(1.08) rotate(-6deg);
+  filter: hue-rotate(-6deg) saturate(1.1);
+}
+
+/* Dashboard main content with padding to avoid overlap with fixed header */
+.dashboard {
+  text-align: center;
+  padding: 80px 20px 40px; /* increased top padding for back button */
+  position: relative;
+  z-index: 1;
+  margin-top: -20px; /* move upward to cover empty space */
+}
+
+.dash-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 1024px) {
+  .dash-container {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 40px;
+}
+
+/* Force 3 cards per row regardless of screen width */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Remove quickstart panel styling since removed */
+/* If <= 768px fallback, convert to 1 column */
+@media (max-width: 768px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    padding: 0 10px;
+  }
+}
+
+.dash-right {
+  padding: 0 20px;
+}
+
+.quick-panel {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.06);
+  text-align: left;
+}
+
+.quick-panel h2 {
+  margin: 8px 0 12px;
+  font-size: 18px;
+}
+
+.quick-card {
+  background: rgba(22, 163, 74, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.quick-card h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.quick-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Metric card styling remains unchanged */
+.metric-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.06);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card:hover {
+  transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+}
+
+.metric-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 20%,
+    transparent 40%
+  );
+  transform: translateX(-120%);
+  transition: transform 800ms ease;
+  pointer-events: none;
+}
+
+.metric-card:hover::after {
+  transform: translateX(120%);
+}
+
+.metric-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.metric-unit {
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.metric-title {
+  margin: 0;
+  font-size: 18px;
+}
+
+.metric-desc {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.fact-box {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  margin: 40px auto;
+  max-width: 600px;
+  text-align: left;
+  overflow: hidden;
+  position: relative;
+}
+
+.fact-box h3 {
+  margin-top: 0;
+}
+
+.fact-ticker {
+  white-space: nowrap;
+  display: inline-block;
+  animation: ticker 18s linear infinite;
+}
+
+.fact-box:hover .fact-ticker {
+  animation-play-state: paused;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.fact-box::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: sheen 4s ease-in-out infinite;
+}
+
+@keyframes sheen {
+  0% {
+    left: -40%;
+  }
+  60% {
+    left: 140%;
+  }
+  100% {
+    left: 140%;
+  }
+}
