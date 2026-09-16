@@ -2,9 +2,8 @@ name: Weekly Progress Report Auto-Commit
 
 on:
   schedule:
-    # Runs every Thursday at 11:59 PM IST (18:29 UTC)
     - cron: '29 18 * * 4'
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:
 
 permissions:
   contents: write
