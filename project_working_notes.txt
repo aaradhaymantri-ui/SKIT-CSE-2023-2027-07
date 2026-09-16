@@ -1,0 +1,213 @@
+﻿================================================================
+EcoQuest - Gamified Environmental Education Web Platform
+Internal Project Data & Working Notes (Draft v1)
+Repository: SKIT-CSE-2023-2027-07 | Branch: main
+Prepared by: Aaradhay Mantri (Team Lead)
+Session: 2026-27 | Client Project Track
+================================================================
+
+SECTION 1 - PROJECT OVERVIEW
+----------------------------------------------------------------
+1.1 EcoQuest teaches environmental awareness through gamified
+    quizzes, daily practice and practical eco-challenges.
+1.2 Backend: Python (Django). Database: SQLite (local only).
+1.3 Frontend: responsive HTML5/CSS3/JavaScript templates.
+1.4 Progress reports export as CSV / Excel / PDF / JSON.
+1.5 Users: school and college students, teachers, awareness
+    programs. Admins manage content and view progress.
+
+SECTION 2 - MODULE ARCHITECTURE
+----------------------------------------------------------------
+2.1 core         : landing, about, privacy, error pages
+2.2 accounts     : registration, login, recovery, profiles
+2.3 quizzes      : levels, questions, attempts, daily quiz
+2.4 gamification : XP, Eco Coins, badges, streaks, leaderboard
+2.5 challenges   : eco-challenges with local evidence upload
+2.6 analytics    : topic progress, weak topics, charts
+2.7 backups      : encrypted export/import with checksum
+2.8 local_sync   : consent-based local network sharing
+2.9 dashboard    : student and admin dashboards
+2.10 admin panel : content and user management
+
+SECTION 3 - CATEGORY QUESTION BANK DRAFT (10 categories)
+----------------------------------------------------------------
+CATEGORY 1: WASTE MANAGEMENT
+Q1. Which waste type belongs in the green bin?
+Q2. Name one item that should never be dumped in drains.
+Q3. What does the 3R principle stand for?
+Q4. Which household waste can be composted at home?
+Q5. Why is segregated waste collection important?
+Q6. What is e-waste? Give one safe disposal step.
+FACT: One ton of recycled paper saves about 17 trees.
+TIP: Rinse and dry containers before recycling.
+
+CATEGORY 2: CLIMATE CHANGE
+Q1. Name one major greenhouse gas.
+Q2. What is a carbon footprint?
+Q3. Give one daily habit that cuts emissions.
+Q4. Why do cities feel hotter than villages?
+Q5. What is the purpose of the Paris Agreement?
+Q6. Name one climate change impact on farming.
+FACT: Cutting food waste reduces global emissions.
+TIP: Walk or cycle for short trips under 2 km.
+
+CATEGORY 3: WATER CONSERVATION
+Q1. How many liters can a leaking tap waste per day?
+Q2. What is rainwater harvesting?
+Q3. Name one way to reuse greywater at home.
+Q4. Why avoid washing vehicles with open hoses?
+Q5. What is a watershed?
+Q6. Give one school-level water saving rule.
+FACT: Fixing a dripping tap can save liters of water daily.
+TIP: Use a bucket instead of a shower for bathing.
+
+CATEGORY 4: ENERGY SAVING
+Q1. Which bulb type consumes less power, LED or CFL?
+Q2. What is a phantom load?
+Q3. Name one benefit of solar rooftop panels.
+Q4. Why set the AC to 24 degrees Celsius?
+Q5. What does a 5-star appliance rating mean?
+Q6. Give one way to cut standby power at home.
+FACT: LEDs use up to 80 percent less energy than old bulbs.
+TIP: Switch off fans and lights when leaving a room.
+
+CATEGORY 5: AIR QUALITY
+Q1. Name one primary pollutant from vehicles.
+Q2. What does the AQI measure?
+Q3. Why is crop burning harmful for cities?
+Q4. Name one indoor air pollution source.
+Q5. How do trees improve air quality?
+Q6. What is smog and when does it worsen?
+FACT: One tree can absorb around 20 kg of CO2 per year.
+TIP: Never burn waste in open areas.
+
+CATEGORY 6: BIODIVERSITY
+Q1. What is a food web?
+Q2. Name one endangered species of India.
+Q3. Why are pollinators like bees critical?
+Q4. What is habitat fragmentation?
+Q5. Name one native tree good for city planting.
+Q6. Why should wetlands be protected?
+FACT: Biodiversity keeps ecosystems resilient to disease.
+TIP: Plant native species in gardens and campuses.
+
+CATEGORY 7: SUSTAINABLE LIFESTYLE
+Q1. What does a zero-waste lifestyle aim for?
+Q2. Name one reusable alternative to plastic bags.
+Q3. Why buy local produce?
+Q4. What is the environmental cost of fast fashion?
+Q5. Name one way to reduce food waste at home.
+Q6. What is carpooling and its benefit?
+FACT: A reusable bottle replaces 100+ plastic bottles a year.
+TIP: Carry a cloth bag for daily shopping.
+
+CATEGORY 8: POLLUTION CONTROL
+Q1. Name one cause of river pollution in cities.
+Q2. What is one health effect of noise pollution?
+Q3. Why segregate medical waste separately?
+Q4. What is soil contamination?
+Q5. Name one Indian rule against single-use plastic.
+Q6. How do wetlands filter pollution?
+FACT: Microplastics have been found in drinking water sources.
+TIP: Drop batteries at collection points, not in trash.
+
+CATEGORY 9: GREEN MOBILITY
+Q1. Name one zero-emission transport mode.
+Q2. What is last-mile connectivity?
+Q3. Why is public transport greener per person?
+Q4. What is an EV's main environmental advantage?
+Q5. Name one city feature that encourages cycling.
+Q6. What is trip chaining?
+FACT: Buses move more people with far less fuel per head.
+TIP: Combine errands into one trip to save fuel.
+
+CATEGORY 10: CIRCULAR ECONOMY
+Q1. What does reduce-reuse-recycle target?
+Q2. Name one product made from recycled material.
+Q3. What is upcycling?
+Q4. Why is a repair culture important?
+Q5. What is product life-cycle thinking?
+Q6. Name one circular economy business model.
+FACT: Recycling aluminum saves about 95 percent of its energy.
+TIP: Donate old books and clothes instead of discarding.
+
+SECTION 4 - BADGE & ACHIEVEMENT DRAFT LIST
+----------------------------------------------------------------
+B01 First Steps - complete first quiz level
+B02 Week Streak - 7 day login streak
+B03 Month Streak - 30 day login streak
+B04 Quiz Master - 10 levels passed with 80 percent or more
+B05 Daily Devotee - 15 daily quizzes completed
+B06 Eco Warrior - 10 challenges approved
+B07 Challenge Champion - 25 challenges approved
+B08 Water Saver - 5 water category challenges approved
+B09 Waste Wizard - 5 waste category challenges approved
+B10 Energy Expert - 5 energy category challenges approved
+B11 Perfect Score - 100 percent in any level quiz
+B12 Comeback Kid - pass a level after 2 failed attempts
+B13 Night Owl - quiz completed after 9 pm
+B14 Early Bird - quiz completed before 7 am
+B15 Collector - earn 500 Eco Coins total
+B16 Coin Bank - hold 1000 Eco Coins at once
+B17 Social Sprout - share progress once with consent
+B18 Backup Buddy - create first encrypted backup
+B19 Restorer - successfully restore a backup
+B20 Green Leader - featured on weekly leaderboard top 3
+
+SECTION 5 - ECO CHALLENGE DRAFT LIST
+----------------------------------------------------------------
+C01 Carry a cloth bag for one week of shopping
+C02 Audit home water leaks and fix one
+C03 Segregate kitchen waste for 7 days
+C04 Plant and care for one native sapling
+C05 Cycle or walk for 3 short trips
+C06 Switch 5 bulbs to LED at home
+C07 Collect e-waste and drop at a collection point
+C08 Compost kitchen waste for 2 weeks
+C09 Refuse single-use plastic for one week
+C10 Organize a campus clean-up with 5 or more friends
+C11 Measure and reduce one week of food waste
+C12 Use public transport twice in a week
+C13 Set up a rainwater harvesting demo at home or hostel
+C14 Digital declutter: free one GB of cloud storage
+C15 Repair one broken item instead of replacing it
+C16 Donate 5 usable items to charity
+C17 No-idle week: switch off engine at long signals
+C18 Paperless week for study notes
+C19 Place bird-water bowls in the neighborhood
+C20 Energy audit: note and cut one standby load
+
+SECTION 6 - TEST CASE DRAFT (QA NOTES)
+----------------------------------------------------------------
+T01 Register with valid data -> account created with student role
+T02 Register with duplicate username -> clear error shown
+T03 Login with wrong password -> error, no session created
+T04 Recovery via backup code -> password reset works
+T05 Level 1 unlocked by default, level 2 locked
+T06 Pass level with 60 percent or more -> next level unlocks
+T07 Fail level -> retry allowed, next level stays locked
+T08 Daily quiz identical for same user on same day
+T09 Daily quiz differs between two users on same day
+T10 Mid-quiz exit saves state, resume restores question index
+T11 Correct answer awards XP equal to difficulty weight
+T12 Streak increments on daily quiz completion
+T13 Badge triggers once only, no duplicates
+T14 Challenge evidence uploads and remains local
+T15 Admin approves challenge -> XP granted exactly once
+T16 CSV report numbers match student dashboard
+T17 PDF report opens and shows correct student name
+T18 Backup decrypts only with correct password
+T19 Corrupted backup rejected with clear message
+T20 Local sync blocked until explicit consent is enabled
+
+SECTION 7 - SPRINT MAPPING SUMMARY (Form-1 / Form-2)
+----------------------------------------------------------------
+Sprint 1 - Project Foundation & Core Setup (10/08/2026 - 22/08/2026)
+Sprint 2 - Quiz & Level Engine (23/08/2026 - 03/10/2026)
+Sprint 3 - Gamification & Environmental Challenges (04/10/2026 - 31/10/2026)
+Sprint 4 - Analytics, Reports & Admin Dashboard (01/11/2026 - 02/01/2027)
+Sprint 5 - Backup, Security & Data Management (03/01/2027 - 06/02/2027)
+Sprint 6 - Testing, Documentation & Final Delivery (07/02/2027 - 06/03/2027)
+
+END OF WORKING NOTES - DRAFT v1
+================================================================
