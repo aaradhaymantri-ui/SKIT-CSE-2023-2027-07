@@ -1,135 +1,145 @@
+# app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from models import db, User
 import os
 import requests
-
-# API keys and constants
-WAQI_TOKEN = '351c21bbca012495885f801d8c5a936ca4e556e0'
-API_KEY = 'b54ff53a8ce6b7fb049899be880387d3'
-BOTPENGUIN_API_KEY = 'SKyMhmyqBBPkboqmplxiffOdRxsG3XZRHHYYBvjCMyh1gvoRFKxSK0MT055RCCsFwPxTYDhegI0FX14hnDqLHiNVCwVwDuRvUq1RHOmbeCuT2MquLJ4yudLd9BjouXqmpDpuUfBqxcJr0aQLXbTlQoq4f4yRFP2hoz2lXYVrUDez9yI2LW3g6wSvYAIchKwPzErsvCHEnvFzxPmFgIweODe9MFK5jgkDtum5l_68c7a7130465f3560d25c2fc_c'
-
-lat = 13.1167001
-lon = 77.6344907
-city = 'bangalore'
+import urllib.parse
 
 app = Flask(__name__)
 CORS(app)
 
-# Database configuration with fallback to SQLite for local/dev
+# --- DATABASE CONFIGURATION ---
 default_sqlite_uri = 'sqlite:///users.db'
 db_uri = os.getenv('DATABASE_URL', default_sqlite_uri)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Initialize the database with the app
 db.init_app(app)
 
+# Create database tables inside the application context
 with app.app_context():
-    try:
-        db.create_all()
-    except Exception:
-        # Fallback to SQLite if initial DB connection fails
-        app.config['SQLALCHEMY_DATABASE_URI'] = default_sqlite_uri
-        db.engine.dispose()
-        db.init_app(app)
-        db.create_all()
+    db.create_all()
+
+# --- CONFIGURATION ---
+LAT = 12.9716   # Bangalore
+LON = 77.5946
+
+# --- ROUTES ---
 
 @app.route('/', methods=['GET'])
 def dashboard():
+    """Real-time Weather + AQI via Open-Meteo (free, no key)."""
     try:
-        aqi_url = f'https://api.waqi.info/feed/{city}/?token={WAQI_TOKEN}'
         weather_url = (
-            f'http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}'
-            f'&appid={API_KEY}&units=metric'
+            f"https://api.open-meteo.com/v1/forecast"
+            f"?latitude={LAT}&longitude={LON}"
+            f"&current=temperature_2m,relative_humidity_2m"
         )
+        w_res = requests.get(weather_url, timeout=5).json()
+        temp = w_res.get('current', {}).get('temperature_2m', 'N/A')
+        hum = w_res.get('current', {}).get('relative_humidity_2m', 'N/A')
 
-        air_response = requests.get(aqi_url, timeout=8)
-        air_data = air_response.json()
-        if air_data.get('status') == 'ok':
-            aqi = air_data['data'].get('aqi', 'N/A')
-        else:
-            aqi = 'N/A'
+        aqi_url = (
+            f"https://air-quality-api.open-meteo.com/v1/air-quality"
+            f"?latitude={LAT}&longitude={LON}&current=european_aqi"
+        )
+        a_res = requests.get(aqi_url, timeout=5).json()
+        aqi = a_res.get('current', {}).get('european_aqi', 'N/A')
 
-        weather_response = requests.get(weather_url, timeout=8)
-        weather_data = weather_response.json()
-        temp = weather_data.get('main', {}).get('temp', 'N/A')
-        hum = weather_data.get('main', {}).get('humidity', 'N/A')
-    except Exception:
-        aqi = 'N/A'
-        temp = 'N/A'
-        hum = 'N/A'
-
-    return jsonify({
-        "temperature": temp,
-        "humidity": hum,
-        "aqi": aqi
-    })
+        return jsonify({
+            "temperature": temp,
+            "humidity": hum,
+            "aqi": aqi,
+            "location": "Bangalore"
+        })
+    except Exception as e:
+        return jsonify({"error": "Failed to retrieve data", "message": str(e)})
 
 
 @app.route('/signup', methods=['POST'])
 def signup():
     data = request.json
-    name = data.get('name')
-    phone = data.get('phone')
-    email = data.get('email')
-    roll_number = data.get('rollNumber')
-    school = data.get('school')
-    class_name = data.get('className')
-    password = data.get('password')
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
 
     # Check if user already exists
-    if User.query.filter_by(email=email).first():
-        return jsonify({"error": "Email already exists"}), 400
+    if User.query.filter_by(email=data.get('email')).first():
+        return jsonify({"error": "Email already exists"}), 409
 
     new_user = User(
-        name=name,
-        phone=phone,
-        email=email,
-        roll_number=roll_number,
-        school=school,
-        class_name=class_name
+        name=data.get('name'),
+        phone=data.get('phone'),
+        email=data.get('email'),
+        roll_number=data.get('rollNumber'),
+        school=data.get('school'),
+        class_name=data.get('className')
     )
+    
+    # Ensure password is provided before hashing
+    password = data.get('password')
+    if not password:
+        return jsonify({"error": "Password is required"}), 400
+        
     new_user.set_password(password)
 
     db.session.add(new_user)
     db.session.commit()
+    return jsonify({"message": "Signup successful", "user": new_user.to_dict()}), 201
 
-    return jsonify({"message": "Signup successful"}), 201
 
 @app.route('/signin', methods=['POST'])
 def signin():
     data = request.json
-    email = data.get("email")
-    password = data.get("password")
-    user = User.query.filter_by(email=email).first()
+    if not data or not data.get("email") or not data.get("password"):
+        return jsonify({"error": "Email and password are required"}), 400
 
-    if user and user.check_password(password):
-        return jsonify({"message": "Signin successful"})
-    return jsonify({"error": "Invalid email or password"}), 400
+    user = User.query.filter_by(email=data.get("email")).first()
+
+    if user and user.check_password(data.get("password")):
+        return jsonify({"message": "Signin successful", "user": user.to_dict()}), 200
+    
+    return jsonify({"error": "Invalid email or password"}), 401
+
+
+@app.route('/profile', methods=['POST'])
+def profile():
+    data = request.json
+    if not data or not data.get("email"):
+        return jsonify({"error": "Email is required"}), 400
+        
+    user = User.query.filter_by(email=data.get("email")).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+        
+    return jsonify({"user": user.to_dict()}), 200
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
+    """EcoBot via Pollinations.ai (free, no key)."""
     data = request.json
     user_message = data.get("message", "")
-    user_id = data.get("user_id", "student123")
 
-    url = "https://api.botpenguin.com/v2/message"
-    headers = {
-        "Authorization": f"Bearer {BOTPENGUIN_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    body = {
-        "message": user_message,
-        "user_id": user_id
-    }
+    if not user_message:
+        return jsonify({"reply": "Please provide a message."}), 400
 
+    prompt = (
+        "You are EcoBot, an environmental expert for students. "
+        f"Answer briefly and helpfully: {user_message}"
+    )
     try:
-        response = requests.post(url, headers=headers, json=body)
-        bot_reply = response.json().get("reply", "Sorry, no reply received")
-        return jsonify({"reply": bot_reply})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        encoded_prompt = urllib.parse.quote(prompt)
+        url = f"https://text.pollinations.ai/{encoded_prompt}"
+        response = requests.get(url, timeout=20)
+
+        if response.status_code == 200:
+            return jsonify({"reply": response.text})
+        return jsonify({"reply": "I'm having trouble connecting right now. Try again!"})
+    except Exception:
+        return jsonify({"reply": "Sorry, I encountered an error. Please try again."})
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
